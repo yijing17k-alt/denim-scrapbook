@@ -1,0 +1,353 @@
+/* =====================================================================
+   LAYOUT — the physical object: ticking-fabric desk, denim-blue ring
+   binder, chrome rings, paper pages, index tabs, strap, page-turn leaf,
+   and the stacked (tablet/mobile) notepad layout.
+   Everything inside the book is sized in "u" (1/1000 of the book width).
+   Light: top-left. Shadows fall down-right.
+   ===================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-height: 100svh;
+  color: var(--ink);
+  font-family: var(--font-body);
+  letter-spacing: var(--body-tracking);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 75% 65% at 45% 42%, rgba(255,255,255,.18), transparent 70%),
+    radial-gradient(ellipse 120% 100% at 50% 50%, transparent 55%, rgba(60,40,30,.10)),
+    var(--tex-ticking);
+  background-size: auto, auto, var(--ticking-size) var(--ticking-size);
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; letter-spacing: inherit; }
+a { color: inherit; }
+:focus-visible { outline: 2.5px solid var(--brick); outline-offset: 3px; border-radius: 6px; }
+[hidden] { display: none !important; }
+
+.sr-only { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip-link { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--ink); color: var(--paper); padding: 10px 14px; border-radius: 10px; text-decoration: none; }
+.skip-link:focus { top: 12px; }
+.noscript { padding: 40px; text-align: center; font-size: 18px; }
+
+.art { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* ======================= STICKER LETTERING =======================
+   Built by UI.letters(): each letter is a fat hollow shape with a rough
+   brown outline and a cream die-cut halo, like the PDF headings. */
+.lettering { margin: 0; font-family: var(--font-display); font-weight: 400; line-height: 1.08; letter-spacing: .015em; color: var(--ink); }
+.lettering:focus { outline: none; }
+.lt-w { display: inline-block; white-space: nowrap; }
+.lt i {
+  font-style: normal; display: inline-block; position: relative; z-index: 0;
+  color: var(--sticker); -webkit-text-stroke: .06em var(--sticker);
+  transform: translateY(var(--y, 0)) rotate(var(--r, 0deg));
+}
+.lt i::before, .lt i::after { content: attr(data-c); position: absolute; left: 0; top: 0; pointer-events: none; }
+.lt i::before { z-index: -1; color: var(--ink); -webkit-text-stroke: .098em var(--ink); filter: url(#rough); }
+/* the cream die-cut border: a ring of offset copies gives a softly ROUNDED
+   contour (a text stroke would make sharp mitred points at letters like M) */
+.lt i::after  { z-index: -2; color: var(--sticker); text-shadow: 0.100em 0.000em 0 var(--sticker), 0.097em 0.026em 0 var(--sticker), 0.087em 0.050em 0 var(--sticker), 0.071em 0.071em 0 var(--sticker), 0.050em 0.087em 0 var(--sticker), 0.026em 0.097em 0 var(--sticker), 0.000em 0.100em 0 var(--sticker), -0.026em 0.097em 0 var(--sticker), -0.050em 0.087em 0 var(--sticker), -0.071em 0.071em 0 var(--sticker), -0.087em 0.050em 0 var(--sticker), -0.097em 0.026em 0 var(--sticker), -0.100em 0.000em 0 var(--sticker), -0.097em -0.026em 0 var(--sticker), -0.087em -0.050em 0 var(--sticker), -0.071em -0.071em 0 var(--sticker), -0.050em -0.087em 0 var(--sticker), -0.026em -0.097em 0 var(--sticker), -0.000em -0.100em 0 var(--sticker), 0.026em -0.097em 0 var(--sticker), 0.050em -0.087em 0 var(--sticker), 0.071em -0.071em 0 var(--sticker), 0.087em -0.050em 0 var(--sticker), 0.097em -0.026em 0 var(--sticker), 0.050em 0.000em 0 var(--sticker), 0.043em 0.025em 0 var(--sticker), 0.025em 0.043em 0 var(--sticker), 0.000em 0.050em 0 var(--sticker), -0.025em 0.043em 0 var(--sticker), -0.043em 0.025em 0 var(--sticker), -0.050em 0.000em 0 var(--sticker), -0.043em -0.025em 0 var(--sticker), -0.025em -0.043em 0 var(--sticker), -0.000em -0.050em 0 var(--sticker), 0.025em -0.043em 0 var(--sticker), 0.043em -0.025em 0 var(--sticker); filter: drop-shadow(.025em .04em .02em rgba(60,40,30,.18)); }
+:root { --sticker: #FBF8F0; }
+.lettering--xxl { font-size: max(44px, calc(var(--u) * 76)); line-height: 1.12; }
+.lettering--xl  { font-size: max(40px, calc(var(--u) * 66)); }
+.lettering--lg  { font-size: max(28px, calc(var(--u) * 44)); }
+/* a little more air between letters, used on selected headings only */
+.lettering--airy .lt i { margin-right: var(--track, .055em); }
+.lettering--airy .lt-w i:last-child { margin-right: 0; }
+
+/* small all-caps label (the PDF's "SAMPLE" / "EMAIL ADDRESS") */
+.chapter-kicker, .caps-label {
+  margin: 0; font-family: var(--font-body); font-weight: 400; text-transform: uppercase;
+  font-size: max(11px, calc(var(--u) * 13)); letter-spacing: .22em; color: var(--ink);
+  -webkit-text-stroke: .35px currentColor;
+}
+.chapter-kicker:focus { outline: none; }
+
+/* =============================== DESK =============================== */
+#app { position: relative; z-index: 1; }
+.desk {
+  min-height: 100svh;
+  display: grid; place-items: center; align-content: center;
+  padding: 58px max(16px, env(safe-area-inset-right, 0px)) 34px max(16px, env(safe-area-inset-left, 0px));
+}
+.kbd-hint {
+  margin: 14px 0 0; padding: 3px 12px; border-radius: 99px; background: rgba(244,244,236,.8);
+  font-family: var(--font-hand); font-size: 14px; color: var(--ink-soft);
+  opacity: 0; transition: opacity .6s .8s;
+}
+.is-ready .kbd-hint { opacity: 1; }
+
+/* ================================ BOOK =============================== */
+.book {
+  --bw: min(var(--book-max-w, 1280px), 93vw, calc((100svh - 104px) * var(--book-aspect, 1.7)));
+  --u: calc(var(--bw) / 1000);
+  --denim-tile: calc(var(--u) * var(--denim-tile-units, 460));
+  --case-pad-y: calc(var(--u) * 20);
+  --case-pad-x: calc(var(--u) * 56);
+  --case-pad: var(--case-pad-y);
+  --gutter: calc(var(--u) * 50);
+  position: relative;
+  width: var(--bw);
+}
+
+/* denim-blue binder: the leather grain tinted indigo, worn patches, cream saddle stitch
+   (colour: --cover in theme.css) */
+.case {
+  position: relative;
+  height: calc(var(--bw) / var(--book-aspect, 1.7));
+  padding: var(--case-pad-y) var(--case-pad-x);
+  border-radius: calc(var(--u) * 14);
+  background-color: var(--cover);
+  background-image:
+    linear-gradient(128deg, rgba(255,255,255,.12), transparent 35%, transparent 65%, rgba(10,18,30,.30)),
+    var(--tex-cover-grain);
+  background-size: auto, calc(var(--u) * 420);
+  background-blend-mode: normal, overlay;
+  box-shadow:
+    inset calc(var(--u) * 1.5) calc(var(--u) * 1.5) 0 rgba(255,255,255,.08),
+    inset calc(var(--u) * -2) calc(var(--u) * -2) 0 rgba(8,16,30,.4),
+    inset 0 0 calc(var(--u) * 30) rgba(8,16,30,.38),
+    calc(var(--u) * 2) calc(var(--u) * 4) calc(var(--u) * 4) rgba(40,28,20,.3),
+    calc(var(--u) * 14) calc(var(--u) * 30) calc(var(--u) * 60) rgba(40,28,20,.32);
+  z-index: 2;
+}
+.case-stitch {
+  position: absolute; inset: calc(var(--u) * 8); pointer-events: none;
+  border: calc(var(--u) * 1.8) dashed var(--thread);
+  border-radius: calc(var(--u) * 9);
+  filter: drop-shadow(.5px 1px 0 rgba(0,0,0,.7));
+  opacity: .8;
+}
+/* pen slits on the inside front cover (left margin) */
+.case::before {
+  content: ''; position: absolute; left: calc(var(--u) * 24); top: 26%; width: calc(var(--u) * 16); height: 30%;
+  background:
+    radial-gradient(circle at 30% 50%, rgba(0,0,0,.8) 1.6px, transparent 2.2px) 0 0 / 100% 33.33%,
+    linear-gradient(90deg, rgba(255,255,255,.06), transparent) 0 0 / 1px 100% no-repeat;
+  pointer-events: none;
+}
+
+/* strap with a hand-drawn pink arrow — a real "next page" link */
+.strap {
+  position: absolute; z-index: 7; right: calc(var(--u) * -40); top: 44%;
+  width: calc(var(--u) * 104); height: calc(var(--u) * 58);
+  display: flex; align-items: center; padding-left: calc(var(--u) * 10);
+  border-radius: calc(var(--u) * 3) calc(var(--u) * 8) calc(var(--u) * 8) calc(var(--u) * 3);
+  background-color: var(--cover-deep);
+  background-image: linear-gradient(180deg, rgba(255,255,255,.12), transparent 45%, rgba(8,16,30,.3)), var(--tex-cover-grain);
+  background-size: auto, calc(var(--u) * 300);
+  background-blend-mode: normal, overlay;
+  box-shadow: calc(var(--u) * 3) calc(var(--u) * 5) calc(var(--u) * 8) rgba(30,20,14,.45), inset 0 1px 0 rgba(255,255,255,.12);
+  transition: transform .3s var(--ease-out);
+}
+.strap::before { content: ''; position: absolute; inset: calc(var(--u) * 6) calc(var(--u) * 6) calc(var(--u) * 6) 0; border-top: calc(var(--u) * 1.6) dashed var(--thread); border-bottom: calc(var(--u) * 1.6) dashed var(--thread); opacity: .75; pointer-events: none; }
+.strap-arrow { position: relative; width: calc(var(--u) * 50); }
+.strap:hover, .strap:focus-visible { transform: translateX(calc(var(--u) * 4)); }
+.strap:focus-visible { outline-offset: 2px; }
+
+.pages { position: relative; height: 100%; perspective: calc(var(--u) * 2800); }
+
+/* --------------------------- spreads & pages -------------------------- */
+.spread {
+  position: absolute; inset: 0;
+  display: grid; grid-template-columns: 1fr var(--gutter) 1fr;
+  visibility: hidden; z-index: 1;
+}
+.spread.is-current { visibility: visible; z-index: 2; }
+.spread.is-under { visibility: visible; z-index: 1; }
+
+.page {
+  position: relative; overflow: hidden; height: 100%;
+  font-size: max(13px, calc(var(--u) * 14.5));
+  line-height: 1.7;
+}
+.page--left  { grid-column: 1; border-radius: calc(var(--u) * 4) calc(var(--u) * 2) calc(var(--u) * 2) calc(var(--u) * 4); }
+.page--right { grid-column: 3; border-radius: calc(var(--u) * 2) calc(var(--u) * 4) calc(var(--u) * 4) calc(var(--u) * 2); }
+
+/* off-white binder paper: faint grain, gentle top-left light */
+.paper {
+  background-color: var(--paper);
+  background-image: linear-gradient(130deg, rgba(255,255,255,.45), transparent 45%, rgba(110,90,70,.04));
+}
+.paper::before { /* faint paper grain */ content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0; background-image: var(--noise-dark); background-size: 220px; opacity: .045; }
+.paper::after { /* the page curves down into the rings */
+  content: ''; position: absolute; top: 0; bottom: 0; width: 10%; pointer-events: none; z-index: 0;
+}
+.page--left.paper::after  { right: 0; background: linear-gradient(to left, rgba(60,40,30,.14), rgba(60,40,30,.03) 45%, transparent); }
+.page--right.paper::after { left: 0;  background: linear-gradient(to right, rgba(60,40,30,.12), rgba(60,40,30,.03) 45%, transparent); }
+/* a thick stack of pages on the outer edges */
+.page--right.paper { box-shadow: 1px 0 0 #D9D5C6, 2.5px 1px 0 var(--paper), 3.5px 1px 0 #D3CEBD, 5px 2px 0 var(--paper), 6px 2px 0 #CCC6B3, 7.5px 3px 0 var(--paper), 8.5px 3px 0 #C4BEAA, calc(var(--u) * 4) calc(var(--u) * 5) calc(var(--u) * 9) rgba(0,0,0,.4); }
+.page--left.paper  { box-shadow: -1px 0 0 #DEDACB, -2.5px 1px 0 var(--paper), -3.5px 1px 0 #D8D3C2, -5px 2px 0 var(--paper), -6px 2px 0 #D0CAB7, calc(var(--u) * 1) calc(var(--u) * 5) calc(var(--u) * 9) rgba(0,0,0,.36); }
+.paper > * { position: relative; z-index: 1; }
+
+/* ---------------------- ring mechanism (spine) ----------------------- */
+.spine {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  width: calc((var(--gutter) + var(--u) * 40) * var(--ring-scale, 1));
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: calc(var(--u) * 14);
+  padding: 9% 0;
+  z-index: 5; pointer-events: none;
+}
+.spine::before { /* chrome channel the rings are mounted on, with two rivets */
+  content: ''; position: absolute; top: calc(var(--u) * 6); bottom: calc(var(--u) * 6); left: 50%; width: calc(var(--u) * 22); transform: translateX(-50%); z-index: -1;
+  border-radius: calc(var(--u) * 11);
+  background:
+    radial-gradient(circle at 50% 50%, #F4F5F7 0 calc(var(--u) * 2.5), #8D939C calc(var(--u) * 4.5), transparent calc(var(--u) * 5.5)) 50% 18% / 100% calc(var(--u) * 14) no-repeat,
+    radial-gradient(circle at 50% 50%, #F4F5F7 0 calc(var(--u) * 2.5), #8D939C calc(var(--u) * 4.5), transparent calc(var(--u) * 5.5)) 50% 82% / 100% calc(var(--u) * 14) no-repeat,
+    linear-gradient(90deg, #6C727C, #DADDE2 22%, #FFFFFF 38%, #BFC4CB 62%, #7A808A 88%, #5C626C);
+  box-shadow: calc(var(--u) * 2) calc(var(--u) * 3) calc(var(--u) * 6) rgba(0,0,0,.45);
+}
+.ring-slot { width: 100%; }
+.ring-slot--split { margin-bottom: auto; }
+.ring-slot .ring { width: 100%; }
+
+/* ------------------------------- tabs --------------------------------- */
+.tabs { position: absolute; bottom: calc(100% - var(--u) * 12); right: calc(var(--u) * 120); z-index: 1; }
+.tabs ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: flex-end; gap: calc(var(--u) * 6); }
+.tab {
+  position: relative; display: block; text-decoration: none;
+  padding: calc(var(--u) * 8) calc(var(--u) * 18) calc(var(--u) * 20);
+  font-family: var(--font-hand); font-size: max(13px, calc(var(--u) * 15)); letter-spacing: .05em;
+  color: var(--ink);
+  background-color: #E4DDCB;
+  background-image: linear-gradient(180deg, rgba(255,255,255,.35), transparent 60%), var(--tex-paper);
+  background-size: auto, calc(var(--u) * 420); background-blend-mode: normal, multiply;
+  border-radius: calc(var(--u) * 8) calc(var(--u) * 8) 0 0;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.6), calc(var(--u) * 2) calc(var(--u) * -1) calc(var(--u) * 4) rgba(40,28,20,.18);
+  transform: translateY(calc(var(--u) * 6));
+  transition: transform .35s var(--ease-out), background-color .3s;
+}
+.tab:hover, .tab:focus-visible { transform: translateY(calc(var(--u) * 1)); }
+.tab.is-active { background-color: var(--paper); transform: translateY(0); padding-top: calc(var(--u) * 11); }
+.tab.is-active::before { /* a tiny felt dot marks the open chapter */
+  content: ''; position: absolute; left: 50%; top: calc(var(--u) * -5); width: calc(var(--u) * 12); height: calc(var(--u) * 12);
+  transform: translateX(-50%); border-radius: 50%; background: var(--brick);
+  box-shadow: inset 0 0 0 calc(var(--u) * 1.4) rgba(255,255,255,.5), 1px 1.5px 1px rgba(40,28,20,.3);
+}
+
+/* --------------------------- page corners ----------------------------- */
+.corner {
+  position: absolute; bottom: calc(var(--u) * 8); z-index: 6;
+  display: inline-flex; align-items: center; gap: calc(var(--u) * 5);
+  padding: calc(var(--u) * 4) calc(var(--u) * 10);
+  font-family: var(--font-hand); font-size: max(13px, calc(var(--u) * 14)); line-height: 1;
+  color: var(--ink-soft); text-decoration: none;
+  border-radius: 999px;
+  transition: transform .25s var(--ease-out), background-color .25s, color .25s;
+}
+.corner svg { width: calc(var(--u) * 13); min-width: 11px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.corner:hover { background: rgba(152,72,72,.08); color: var(--ink); }
+.corner--prev { left: calc(var(--u) * 12); }
+.corner--prev:hover { transform: translateX(-3px); }
+.corner--next { right: calc(var(--u) * 12); }
+.corner--next:hover { transform: translateX(3px); }
+
+/* ------------------------------ page turn ----------------------------- */
+.leaf { position: absolute; z-index: 4; transform-style: preserve-3d; pointer-events: none; will-change: transform; }
+.leaf-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.leaf-back { transform: rotateY(180deg); }
+.leaf-shade { position: absolute; inset: 0; z-index: 10; pointer-events: none; opacity: 0; background: linear-gradient(90deg, rgba(30,22,16,.5), rgba(30,22,16,.16)); }
+.page-clone * { animation: none !important; transition: none !important; }
+
+/* opening animation: the denim-blue front cover with a ticking-fabric label */
+.front-cover {
+  position: absolute; top: 0; bottom: 0; overflow: hidden;
+  border-radius: calc(var(--u) * 3) calc(var(--u) * 12) calc(var(--u) * 12) calc(var(--u) * 3);
+  background-color: var(--cover);
+  background-image: linear-gradient(128deg, rgba(255,255,255,.12), transparent 45%, rgba(10,18,30,.3)), var(--tex-cover-grain);
+  background-size: auto, calc(var(--u) * 420);
+  background-blend-mode: normal, overlay;
+  box-shadow: inset calc(var(--u) * 2) calc(var(--u) * 2) 0 rgba(255,255,255,.08), inset 0 0 calc(var(--u) * 26) rgba(0,0,0,.4), calc(var(--u) * 4) calc(var(--u) * 6) calc(var(--u) * 14) rgba(0,0,0,.4);
+}
+.fc-stitch { position: absolute; inset: calc(var(--u) * 14); border: calc(var(--u) * 1.8) dashed var(--thread); border-radius: calc(var(--u) * 8); opacity: .8; }
+.fc-label {
+  position: absolute; left: 50%; top: 47%; transform: translate(-50%, -50%) rotate(-2deg);
+  padding: calc(var(--u) * 26) calc(var(--u) * 34) calc(var(--u) * 30);
+  background-color: var(--tick-cream); background-image: var(--tex-ticking); background-size: calc(var(--u) * 260);
+  box-shadow: inset 0 0 0 calc(var(--u) * 6) rgba(255,255,255,.25), calc(var(--u) * 3) calc(var(--u) * 6) calc(var(--u) * 12) rgba(0,0,0,.45);
+  white-space: nowrap;
+}
+.fc-label::after { content: ''; position: absolute; inset: calc(var(--u) * 6); border: 1.5px dashed rgba(81,55,43,.4); pointer-events: none; }
+.fc-star { position: absolute; width: calc(var(--u) * 64); z-index: 2; }
+.fc-star.s1 { left: 12%; top: 30%; transform: rotate(-14deg); }
+.fc-star.s2 { right: 10%; bottom: 28%; transform: rotate(12deg); }
+.is-intro .tabs { animation: tabs-in .6s 1.2s both var(--ease-out); }
+@keyframes tabs-in { from { opacity: 0; transform: translateY(calc(var(--u) * 20)); } }
+
+/* ------------------------------ toast --------------------------------- */
+.toast {
+  position: fixed; left: 50%; bottom: 24px; z-index: 200;
+  transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  max-width: min(92vw, 460px); padding: 12px 18px;
+  background: var(--ink); color: var(--paper); border-radius: 12px;
+  font-size: 15px; line-height: 1.4; text-align: center;
+  box-shadow: var(--shadow-lift);
+  transition: opacity .3s, transform .3s var(--ease-out);
+}
+.toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+
+/* placeholder styling — a pencilled note, easy to spot, easy to switch off */
+.is-ph { color: var(--ink-soft); opacity: .8; }
+.ph-hint {
+  position: absolute; z-index: 3; right: calc(var(--u) * 20); bottom: calc(var(--u) * 40);
+  font-family: var(--font-hand); font-size: max(11px, calc(var(--u) * 12)); line-height: 1.2; letter-spacing: .03em;
+  color: var(--brick); background: rgba(152,72,72,.09); padding: 3px 8px 4px; border-radius: 3px;
+  transform: rotate(-2deg); pointer-events: none; white-space: nowrap;
+}
+
+/* =========================== STACKED (mobile) ===========================
+   Below settings.book.stackBelow the book becomes a top-bound notepad:
+   one spread at a time, its two pages stacked, rings along the top. */
+.is-stacked .desk { padding: 14px 0 calc(96px + env(safe-area-inset-bottom)); align-content: start; }
+.is-stacked .book {
+  --bw: min(100vw - 20px, 620px);
+  --u: calc(var(--bw) / 500);
+  --case-pad-y: calc(var(--u) * 16);
+  --case-pad-x: calc(var(--u) * 16);
+}
+.is-stacked .case { height: auto; padding-top: calc(var(--u) * 44); border-radius: calc(var(--u) * 14); }
+.is-stacked .case::before, .is-stacked .strap, .is-stacked .kbd-hint { display: none; }
+.is-stacked .pages { height: auto; display: grid; grid-template-columns: 1fr 1fr; perspective: none; }
+.is-stacked .spread { position: relative; inset: auto; grid-column: 1 / -1; display: none; grid-template-columns: 1fr; gap: calc(var(--u) * 22); }
+.is-stacked .spread.is-current { display: grid; }
+.is-stacked .page { grid-column: 1; height: auto; min-height: calc(var(--u) * 560); border-radius: calc(var(--u) * 6); font-size: max(14px, calc(var(--u) * 15)); }
+.is-stacked .page--left.paper, .is-stacked .page--right.paper { box-shadow: 0 1.5px 0 #D9D5C6, 0 3px 0 var(--paper), 0 4px 0 #CCC6B3, calc(var(--u) * 2) calc(var(--u) * 8) calc(var(--u) * 10) rgba(0,0,0,.35); }
+.is-stacked .paper::after { display: none; }
+.is-stacked .spine {
+  top: calc(var(--u) * -46); bottom: auto; left: 0; right: 0; width: auto; height: calc(var(--u) * 64); padding: 0;
+  transform: none; flex-direction: row; justify-content: space-evenly; gap: 0;
+}
+.is-stacked .spine::before { display: none; }
+.is-stacked .ring-slot--split { margin-bottom: 0; }
+.is-stacked .ring-slot { position: relative; width: calc(var(--u) * 26); height: calc(var(--u) * 64); }
+.is-stacked .ring-slot .ring { position: absolute; left: 50%; top: 50%; width: calc(var(--u) * 64); transform: translate(-50%, -50%) rotate(90deg); }
+.is-stacked .corner { position: relative; bottom: auto; left: auto; right: auto; margin-top: calc(var(--u) * 18); font-size: 16px; min-height: 44px; color: var(--ink); background: var(--paper); box-shadow: var(--shadow-soft); }
+.is-stacked .corner--prev { grid-column: 1; justify-self: start; }
+.is-stacked .corner--next { grid-column: 2; justify-self: end; }
+
+.is-stacked .tabs {
+  position: fixed; left: 0; right: 0; bottom: 0; top: auto; z-index: 50;
+  padding: 8px max(10px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left, 0px));
+  background: rgba(244, 244, 236, .95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 -1px 0 rgba(81,55,43,.12), 0 -8px 20px rgba(81,55,43,.08);
+}
+.is-stacked .tabs ul { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; max-width: 620px; margin: 0 auto; align-items: stretch; }
+.is-stacked .tab {
+  display: grid; place-items: center; text-align: center; min-height: 48px;
+  padding: 6px 4px; font-size: 12.5px; letter-spacing: .02em; line-height: 1.15;
+  border-radius: 10px; transform: none;
+}
+.is-stacked .tab.is-active { padding-top: 6px; box-shadow: inset 0 0 0 1.5px var(--brick); }
+.is-stacked .tab.is-active::before { display: none; }
+.is-stacked .ph-hint { bottom: calc(var(--u) * 16); }
+.is-stacked .toast { bottom: calc(96px + env(safe-area-inset-bottom)); }
+
+/* ========================== reduced motion ========================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}

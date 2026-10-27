@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d7efec"/><stop offset="1" stop-color="#5fb3b0" stop-opacity=".55"/></linearGradient>
+<pattern id="d" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><circle cx="7" cy="7" r="2.2" fill="#5fb3b0" opacity=".22"/></pattern></defs>
+<rect width="1280" height="720" fill="url(#g)"/><rect width="1280" height="720" fill="url(#d)"/><circle cx="737" cy="600" r="20" fill="#e48aa3" opacity=".18"/><circle cx="74" cy="560" r="19" fill="#e48aa3" opacity=".18"/><circle cx="620" cy="690" r="20" fill="#e48aa3" opacity=".18"/><circle cx="145" cy="58" r="37" fill="#e48aa3" opacity=".18"/><circle cx="1063" cy="1" r="26" fill="#e48aa3" opacity=".18"/><circle cx="153" cy="9" r="18" fill="#e48aa3" opacity=".18"/><circle cx="67" cy="393" r="10" fill="#e48aa3" opacity=".18"/>
+<circle cx="640.0" cy="360.0" r="79.2" fill="#fffaf1" opacity=".92"/><polygon points="612.28,316.44 612.28,403.56 687.52,360.0" fill="#5fb3b0"/>
+<text x="640.0" y="511.2" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="39.6" fill="#1d2740" opacity=".75">Sample thumbnail 16:9</text>
+<text x="640.0" y="561.6" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28.8" fill="#1d2740" opacity=".55">replace with your image</text>
+</svg>
